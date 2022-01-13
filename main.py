@@ -2,6 +2,8 @@ import pygame
 import os
 import time
 import random
+import math
+from pygame.math import Vector2
 from threading import Timer
 pygame.font.init()
 
@@ -118,7 +120,16 @@ class Player(Ship):
                         if laser in self.lasers:
                             self.lasers.remove(laser)
 
+   # def rotate(self):
+    #    mouse_x, mouse_y = pygame.mouse.get_pos()
+     #   
+      ## angle = (180 / math.pi) * -math.atan2(rel_y, rel_x)
+        #
+        # self.rect = self.ship_img.get_rect(center=self.position)
+
+
     def draw(self, window):
+        
         super().draw(window)
         self.healthbar(window)
 
@@ -191,7 +202,7 @@ def main():
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
 
-        pygame.transform.rotate(player, pygame.mouse.get_pos)
+        
         powerupactive_label = main_font.render("Rapid fire active", 1, (255,255,244))
 
         if powerup == True:
@@ -226,6 +237,10 @@ def main():
         if len(enemies) == 0:
             level += 1
             lives += 1
+            if enemy_vel <= 8:
+                enemy_vel += 1
+            if player_vel <= 10:
+                player_vel += 1
             wave_length += 5
             for i in range(wave_length):
                 enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
